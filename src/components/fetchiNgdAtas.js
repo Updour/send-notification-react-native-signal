@@ -2,54 +2,75 @@
 
 import React, { Component } from 'react';
 
-import { StyleSheet,  View, FlatList } from 'react-native'
+import { StyleSheet,  View, FlatList, RefreshControl } from 'react-native'
 import { Container, Header,Icon,Left,Body, Title, Content, List,Right, ListItem, Text, Button, Thumbnail } from 'native-base'
 
 export default class FetchiNgdAtas extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       people : [],
-      errorMessage : ''
+      refreshing: false,
+      errorMessage : '',
     };
   }
 
-   componentDidMount(){
-    this.getdAtasPeople()
+  componentDidMount() {
+    this._interval = setInterval(() => {
+     this.getdAtasPeople()
+      // console.warn( this.state.people)
+    }, 5000);
   }
- 
+
+  componentWillUnmount() {
+    clearInterval(this._interval);
+  }
+
+    //for refreshing down pull
+     _refreshControl(){
+    return (
+      <RefreshControl
+        refreshing={this.state.refreshing}
+        onRefresh={()=>this.getdAtasPeople()} />
+    )
+  }
+   
+    // for get data
     getdAtasPeople = () => {
-      fetch('https://jsonplaceholder.typicode.com/posts')
+      fetch('https://reqres.in/api/users?page=2')
       .then(response => response.json())
-        .then(responseJson => {
-          this.setState({
-            people : responseJson
-          })
-          // console.warn(responseJson)
+      .then(responseJson => {
+        this.setState({
+          people : responseJson.data
         })
-        .catch(e=>{
-          this.setState({
-            errorMessage : e
-          })
-          // console.warn(e)
+          console.warn(responseJson.data)
+        })
+      .catch(e=>{
+        this.setState({
+          errorMessage : e
+        })
+          console.warn(e)
         })
       
     }
+  
+
     _keyExtractor = (item, i) => i.toString();
     _renderItem = ({ item }) => {
-      const { _id, title, body } = item;
+      const { id, first_name, last_name, avatar } = item;
+      // console.warn(title)
 
       return (
        <Content>
           <List>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }} />
+                <Thumbnail source={{uri : avatar}} />
               </Left>
               <Body>
-                <Text>{item.title.substring(1, 18)}</Text>
-                <Text note>{item.body.substring(1, 28)}</Text>
+                <Text key={item.id}>{first_name.substr(0, 2)}</Text>
+                <Text >{last_name.substr(0, 5)}</Text>
               </Body>
               <Right>
                 <Text note>3:43 pm</Text>
@@ -75,7 +96,6 @@ export default class FetchiNgdAtas extends Component {
         </Header>
         <Content>
         <FlatList
-          style={{ flex: 1 }}
           data={this.state.people}
           keyExtractor = {this._keyExtractor}
           renderItem={this._renderItem}
