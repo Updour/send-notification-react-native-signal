@@ -35,11 +35,12 @@ export default class FetchiNgdAtas extends Component {
    
     // for get data
     getdAtasPeople = () => {
-      fetch('http://otoritech.com/data')
+      fetch('http://otoritech.com/data.json')
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          lasthistory : responseJson.lasthistory
+          lasthistory : responseJson.lasthistory,
+          header : responseJson.header
         })
           console.warn(responseJson.lasthistory)
         })
@@ -65,7 +66,8 @@ export default class FetchiNgdAtas extends Component {
               <Body>
                 <Text >{cell}</Text>
                 <Text >{pairs}</Text>
-                <Text >{this.state.header.pairs}</Text>
+                <Text >{left}</Text>
+                <Text >{right}</Text>
               </Body>
               <Right>
                 <Text note>3:43 pm</Text>
@@ -90,11 +92,29 @@ export default class FetchiNgdAtas extends Component {
           <Right />
         </Header>
         <Content>
+        <Card>
+            <CardItem>
+                <Text>
+                   {this.state.header.left}
+                </Text>
+            </CardItem>
+            <CardItem>
+                <Text>
+                   {this.state.header.left}
+                </Text>
+            </CardItem>
+            <CardItem>
+                <Text>
+                   {this.state.header.left}
+                </Text>
+            </CardItem>
+        </Card>
         <FlatList
           data={this.state.lasthistory}
           keyExtractor = {this._keyExtractor}
           renderItem={this._renderItem}
         />
+
         </Content>
       </Container>
     );
