@@ -8,9 +8,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "init": "^0.1.0",
     "native-base": "^2.7.2",
     "react": "16.4.1",
-    "react-native": "0.55.4",
+    "react-native": "^0.55.4",
     "react-native-easy-grid": "^0.2.0",
     "react-native-onesignal": "^3.2.6",
     "react-navigation": "1.5.1",
