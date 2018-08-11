@@ -4,16 +4,19 @@ import React, { Component } from 'react';
 
 import { StyleSheet,  View, FlatList, RefreshControl } from 'react-native'
 import { Container, Header,Icon,Left,Body, Title, Content, List,Right, ListItem, Text, Button, Thumbnail } from 'native-base'
-
+import { Col, Row, Grid } from 'react-native-easy-grid';
 export default class FetchiNgdAtas extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      people : [],
-      refreshing: false,
-      errorMessage : '',
-    };
+      lasthistory : [],
+      "header": {
+            "pairs":12,
+            "left" :4,
+            "right":8
+      },
+    }
   }
 
   componentDidMount() {
@@ -28,49 +31,41 @@ export default class FetchiNgdAtas extends Component {
   }
 
     //for refreshing down pull
-     _refreshControl(){
-    return (
-      <RefreshControl
-        refreshing={this.state.refreshing}
-        onRefresh={()=>this.getdAtasPeople()} />
-    )
-  }
+
    
     // for get data
     getdAtasPeople = () => {
-      fetch('https://reqres.in/api/users?page=2')
+      fetch('http://otoritech.com/data')
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          people : responseJson.data
+          lasthistory : responseJson.lasthistory
         })
-          console.warn(responseJson.data)
+          console.warn(responseJson.lasthistory)
         })
       .catch(e=>{
         this.setState({
           errorMessage : e
         })
-          console.warn(e)
+          // console.warn(e)
         })
-      
     }
-  
 
     _keyExtractor = (item, i) => i.toString();
     _renderItem = ({ item }) => {
-      const { id, first_name, last_name, avatar } = item;
+      const { cell,pairs, left, right, datetime,   } = item;
       // console.warn(title)
-
       return (
        <Content>
           <List>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={{uri : avatar}} />
+                <Thumbnail source={{uri : 'https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg'}} />
               </Left>
               <Body>
-                <Text key={item.id}>{first_name.substr(0, 2)}</Text>
-                <Text >{last_name.substr(0, 5)}</Text>
+                <Text >{cell}</Text>
+                <Text >{pairs}</Text>
+                <Text >{this.state.header.pairs}</Text>
               </Body>
               <Right>
                 <Text note>3:43 pm</Text>
@@ -96,7 +91,7 @@ export default class FetchiNgdAtas extends Component {
         </Header>
         <Content>
         <FlatList
-          data={this.state.people}
+          data={this.state.lasthistory}
           keyExtractor = {this._keyExtractor}
           renderItem={this._renderItem}
         />
