@@ -11,57 +11,79 @@ const styles = StyleSheet.create({
 		marginRight: 7,
 		flex : 1
 	},
-    gridRows: {
-        marginTop:13,
-		marginLeft: 7,
-		marginRight: 7,
-        flex : 1,
-        backgroundColor:'#efe'
+    //header styles
+    gridHeader: {
+        marginRight: 8, 
+        marginLeft: 8, 
+        marginTop: 10
+    },    
+    gridHeaderPairs:{
+        marginRight: 8, 
+        marginLeft: 8, 
+        marginTop: 3
     },
-    gridCols3: {
-        marginTop:13,
-		marginLeft: 7,
-		marginRight: 7,
-		flex : 1
+
+    headerCard: {
+        height: 80,
+        borderRadius: 17,
     },
-	col: {
-		backgroundColor: '#000', 
-        height: 100,
-        marginTop: 10,
-		flex : 1	
-    },
-	col3: {
-		backgroundColor: '#000', 
-        height: 250,
-        marginTop: 10,
-		flex : 1	
-    },
-    centerRow:{
-        flex:1,
-        height: 100,
-		backgroundColor: '#000', 
-    },
-    contentRow:{
+    textCard: {
+        fontFamily: 'roboto',
+        alignItems: 'center',
         alignSelf: 'center',
+        color: 'blue'  
     },
-    textRowName:{
-        alignSelf:'center',
-        fontSize: 13,
-        fontFamily: 'roboto'
+    textCarddAta:{
+        fontFamily: 'roboto',
+        alignItems: 'center',
+        alignSelf: 'center',
+        fontSize: 23,
+        fontWeight: 'bold'
     },
-    textRowdAtas:{
-        alignSelf:'center',
-        fontSize: 30,
-        fontFamily: 'roboto'
+    //list style
+    listContent: {
+        backgroundColor: '#efefef', 
+        marginLeft: 8, 
+        marginRight: 8,
+        marginTop: 3,
+        // borderColor: '#000000',
+        borderWidth: 2,
+        borderRadius: 10,
+        borderTopLeftRadius: 13,
+        borderBottomRightRadius:13
     },
-    cardsRow:{
-        borderRadius: 13,
+    listheAderCard: {
+        marginTop: 7,
+        marginBottom: 7,
         marginLeft: 7,
-        marginRight:7
+        marginRight: 7,
+        borderRadius: 17
     },
-    TextFont:{
-        fontFamily:'roboto',
-        fontSize:16
+    //cell
+    listLefts: {
+        fontFamily: 'roboto',
+        alignItems: 'flex-start',
+        alignSelf: 'flex-start',
+        fontWeight: 'bold'
     },
+    listCenters: {
+        fontFamily: 'roboto',
+        alignItems: 'center',
+        alignSelf: 'center',
+    }, 
+    listpAirs: {
+        fontFamily: 'roboto',
+        alignItems: 'flex-end',
+        alignSelf: 'flex-end',
+    }, 
+    listpAirsc: {
+        fontFamily: 'roboto',
+        alignItems: 'flex-end',
+        alignSelf: 'flex-end',
+        fontSize: 10,
+        color: 'blue'
+    } 
+    //center left & right
+
 })
 export default styles;

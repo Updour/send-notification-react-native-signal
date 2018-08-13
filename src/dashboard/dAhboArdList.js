@@ -25,34 +25,74 @@ export default class DashBoArdList extends Component {
     
         this.state = {
           lasthistory : [],
+          header:{
+            "pairs":'',
+            "left" :'',
+            "right":''
+          },
       }
+    }
+    
       componentDidMount(){
         this._interval = setInterval(() => {
-            this._onFetChingdAtas()
-             // console.warn( this.state.people)
-           }, 5000);
-         }
-    //get dAtas
-        _onFetChingdAtas = () => {
-            fetch('http://otoritech.com/data')
-            .then(response => response.json())
-            .then(responseJson => {
-              this.setState({
-                lasthistory : responseJson.lasthistory
-              })
-                console.warn(responseJson.lasthistory)
-              })
-            .catch(e=>{
-              this.setState({
-                errorMessage : e
-              })
-                // console.warn(e)
-              })
-        }
+          this._onFetChingdAtas()
+               // console.warn( this.state.people)
+             }, 5000);
+      }
+      //get dAtas
+      _onFetChingdAtas = () => {
+        fetch('http://otoritech.com/data')
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState({
+            lasthistory : responseJson.lasthistory,
+            header : responseJson.header
+          })
+          // console.warn(responseJson.lasthistory)
+          // console.warn(responseJson.header)
+        })
+        .catch(e=>{
+          this.setState({
+            errorMessage : e
+          })
+                  // console.warn(e)
+        })
+      }
+
+    //for list 
+      _keyExtractor= (x,i) => i.toString()
+      _renderItem= ({item})=> {
+        const { cell,pairs, left, right, datetime,   } = item;
+        return(
+          <Content>
+            <Grid>
+              <Col>
+                <Content>
+                  <Card style={styles.listheAderCard}>
+                    <CardItem style={styles.listheAderCard}>
+                      <Left>
+                        <Text style={styles.listLefts}>{cell}</Text>
+                      </Left>
+                      <Body>
+                        <Text style={styles.listCenters}>LEFT     :  {left}</Text>
+                        <Text style={styles.listCenters}>RIGHT  :  {right}</Text>
+                      </Body>
+                      <Right>
+                        <Text style={styles.listpAirs}>PAIRS  :  {pairs}</Text>
+                        <Text note style={styles.listpAirsc} >CALIBRATED: YES</Text>
+                      </Right>
+                    </CardItem>
+                  </Card>
+                </Content>
+              </Col>
+            </Grid>
+          </Content>
+        )
+      }
 
   render() {
     return (
-        <Container>
+      <Container>
         <Header>
           <Left>
             <Button transparent>
@@ -64,105 +104,57 @@ export default class DashBoArdList extends Component {
           </Body>
           <Right />
         </Header>
-        <Content>
-        <Text>{this.state.header.pairs}</Text>
-        <FlatList
-          data={this.state.lasthistory}
-		  keyExtractor={(x,i) => i.toString()}
-          renderItem={({item})=>
-          <Content style={styles.content}>
-        <Grid style={styles.grid}>
-          <Col style={styles.col}>
-            <Content>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Body>
-                    <Text>{item.pairs}</Text>
-                    <Text>{item.pairs}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            </Content>
-          </Col>
-          <Col style={styles.col}>
-            <Content>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Body>
-                    <Text>Left 3</Text>
-                    <Text>Left 3</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            </Content>
-          </Col>
-        </Grid>
-        <Grid style={styles.gridRows}>
-          <Row>
-            <Content style={styles.contentRow}>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Body>
-                    <Text style={styles.textRowName} note>PAIRS</Text>
-                    <Text style={styles.textRowdAtas}>{item.pairs}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            </Content>
-          </Row>
-        </Grid>
-        <Grid style={styles.gridCols3}>
-          <Col style={styles.col3}>
-            <Text style={styles.TextFont}>asasas</Text>
-            <Content>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Left>
-                    <Text style={styles.TextFont}>{item.cell}</Text>
-                  </Left>
-                  <Body>
-                    <Text style={styles.TextFont}>Google</Text>
-                    <Text style={styles.TextFont}>sasdasd:4</Text>
-                  </Body>
-                  <Right>
-                    <Text style={styles.TextFont}> Plus</Text>
-                  </Right>
-                </CardItem>
-              </Card>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Left>
-                    <Text style={styles.TextFont}>asd</Text>
-                  </Left>
-                  <Body>
-                    <Text style={styles.TextFont}>Google</Text>
-                    <Text style={styles.TextFont}>sdfsdf:s</Text>
-                  </Body>
-                  <Right>
-                    <Text style={styles.TextFont}> Plus</Text>
-                  </Right>
-                </CardItem>
-              </Card>
-              <Card style={styles.cardsRow}>
-                <CardItem style={styles.cardsRow}>
-                  <Left>
-                    <Text style={styles.TextFont}>asd</Text>
-                  </Left>
-                  <Body>
-                    <Text style={styles.TextFont}>Google</Text>
-                    <Text style={styles.TextFont}>Google</Text>
-                  </Body>
-                  <Right>
-                    <Text  style={styles.TextFont}> Plus</Text>
-                  </Right>
-                </CardItem>
-              </Card>
-            </Content>
-          </Col>
-        </Grid>
-      </Content>
-          }
-        />
+        <Content style={{backgroundColor: '#efefef'}}>
+          <Content>
+          <Grid style={styles.gridHeader}>
+            <Col>
+              <Content >
+                <Card style={styles.headerCard}>
+                  <CardItem style={styles.headerCard}>
+                    <Body>
+                      <Text note style={styles.textCard}>     RIGHT</Text>
+                      <Text style={styles.textCarddAta}>{this.state.header.left}</Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              </Content>
+            </Col>
+            <Col >
+              <Content>
+                <Card style={styles.headerCard}>
+                  <CardItem style={styles.headerCard}>
+                    <Body>
+                      <Text note style={styles.textCard}>     LEFT</Text>
+                      <Text style={styles.textCarddAta}>{this.state.header.right}</Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              </Content>
+            </Col>
+          </Grid>
+          <Grid style={styles.gridHeaderPairs}>
+            <Row>
+              <Content>
+                <Card  style={styles.headerCard}>
+                  <CardItem style={styles.headerCard}>
+                    <Body>
+                      <Text note style={styles.textCard}>     PAIRS</Text>
+                      <Text style={styles.textCarddAta}>{this.state.header.pairs}</Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              </Content>
+            </Row>
+          </Grid>
+          </Content>
+          <Card style={styles.listContent}>
+            <FlatList
+              data={this.state.lasthistory}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+            /> 
+          </Card>
+            
         </Content>
       </Container>
     );

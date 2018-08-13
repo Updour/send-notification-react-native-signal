@@ -3,19 +3,22 @@
 import React, { Component } from 'react';
 
 import { StyleSheet,  View, FlatList, RefreshControl } from 'react-native'
-import { Container, Header,Icon,Left,Body, Title, Content, List,Right, ListItem, Text, Button, Thumbnail } from 'native-base'
+import { Container, Header,Icon,Left,Body, Title, Content, List,Right, ListItem, Text, Button, Thumbnail,
+Card, CardItem } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid';
+
 export default class FetchiNgdAtas extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       lasthistory : [],
-      "header": {
-            "pairs":12,
-            "left" :4,
-            "right":8
+      header:{
+        "pairs":'',
+        "left" :'',
+        "right":''
       },
+
     }
   }
 
@@ -42,7 +45,8 @@ export default class FetchiNgdAtas extends Component {
           lasthistory : responseJson.lasthistory,
           header : responseJson.header
         })
-          console.warn(responseJson.lasthistory)
+          // console.warn(responseJson.lasthistory)
+          console.warn(responseJson.header)
         })
       .catch(e=>{
         this.setState({
@@ -92,23 +96,18 @@ export default class FetchiNgdAtas extends Component {
           <Right />
         </Header>
         <Content>
-        <Card>
+        <Content>
+          <Card>
             <CardItem>
+              <Body>
                 <Text>
-                   {this.state.header.left}
+                  RIGHT
+                   {this.state.header.right}
                 </Text>
+              </Body>
             </CardItem>
-            <CardItem>
-                <Text>
-                   {this.state.header.left}
-                </Text>
-            </CardItem>
-            <CardItem>
-                <Text>
-                   {this.state.header.left}
-                </Text>
-            </CardItem>
-        </Card>
+          </Card>
+        </Content>
         <FlatList
           data={this.state.lasthistory}
           keyExtractor = {this._keyExtractor}
