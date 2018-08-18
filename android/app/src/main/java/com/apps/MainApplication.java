@@ -27,7 +27,11 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeOneSignalPackage()
       );
     }
-
+      // @Override ini yang tadi mas
+  //public List<ReactPackage> createAdditionalReactPackages() {
+    //return getPackages();
+  //}//ini mas di emulatornya bener ?
+    // run aja mas
     @Override
     protected String getJSMainModuleName() {
       return "index";
@@ -43,5 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-  }
+  };
+  
+
 }

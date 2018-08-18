@@ -54,7 +54,7 @@ export default class RNOneSignal extends Component {
 
         OneSignal.setRequiresUserPrivacyConsent(requiresConsent);
 
-        OneSignal.init("59c4b433-66a0-419a-bbbe-251888196c8b", {kOSSettingsKeyAutoPrompt : true});
+        OneSignal.init("bbe7a7e0-2b7d-4a7f-b6b8-a12b2207a593", {kOSSettingsKeyAutoPrompt : true});
 
         var providedConsent = await OneSignal.userProvidedPrivacyConsent();
 
@@ -69,24 +69,19 @@ export default class RNOneSignal extends Component {
         this.onReceived = this.onReceived.bind(this);
         this.onOpened = this.onOpened.bind(this);
         this.onIds = this.onIds.bind(this);
-        this.onEmailRegistrationChange = this.onEmailRegistrationChange.bind(this);
 
         OneSignal.addEventListener('received', this.onReceived);
         OneSignal.addEventListener('opened', this.onOpened);
         OneSignal.addEventListener('ids', this.onIds);
-        OneSignal.addEventListener('emailSubscription', this.onEmailRegistrationChange);
     }
 
     componentWillUnmount() {
         OneSignal.removeEventListener('received', this.onReceived);
         OneSignal.removeEventListener('opened', this.onOpened);
         OneSignal.removeEventListener('ids', this.onIds);
-        OneSignal.removeEventListener('emailSubscription', this.onEmailRegistrationChange);
     }
 
-    onEmailRegistrationChange(registration) {
-        console.log("onEmailRegistrationChange: ", registration);
-    }
+
 
     onReceived(notification) {
         console.log("Notification received: ", notification);

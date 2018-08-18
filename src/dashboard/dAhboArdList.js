@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-    FlatList
+    FlatList, ActivityIndicator, View, StatusBar, NetInfo
 } from 'react-native'
 import {
   Container,
@@ -18,7 +18,7 @@ import {
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import styles from "./styles";
-
+import OfflineNotice from './OfflineNotice'
 export default class DashBoArdList extends Component {
     constructor(props) {
         super(props);
@@ -30,15 +30,33 @@ export default class DashBoArdList extends Component {
             "left" :'',
             "right":''
           },
+          loading : true,
       }
+        NetInfo.getConnectionInfo().then((connectionInfo) => {
+          console.warn('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+        });
+        function handleFirstConnectivityChange(connectionInfo) {
+          console.warn('First change, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+          NetInfo.removeEventListener(
+            'connectionChange',
+            handleFirstConnectivityChange
+            );
+        }
+        NetInfo.addEventListener(
+          'connectionChange',
+          handleFirstConnectivityChange
+          );
     }
     
-      componentDidMount(){
-        this._interval = setInterval(() => {
-          this._onFetChingdAtas()
+    componentDidMount () {
+      this._interval = setInterval(() => {
+        this._onFetChingdAtas()
                // console.warn( this.state.people)
-             }, 5000);
-      }
+        }, 5000);
+    }
+    componentWillUnmount () {
+      clearInterval(this._interval);
+    }
       //get dAtas
       _onFetChingdAtas = () => {
         fetch('http://otoritech.com/data')
@@ -46,7 +64,8 @@ export default class DashBoArdList extends Component {
         .then(responseJson => {
           this.setState({
             lasthistory : responseJson.lasthistory,
-            header : responseJson.header
+            header : responseJson.header,
+            loading: false
           })
           // console.warn(responseJson.lasthistory)
           // console.warn(responseJson.header)
@@ -91,19 +110,33 @@ export default class DashBoArdList extends Component {
       }
 
   render() {
+    if (this.state.loading) {
+      return(
+        <View style={{flex: 1, padding: 20, flexDirection: 'row', padding: 10, justifyContent: 'space-around' }}>
+          <ActivityIndicator size="small" color="blue"/>
+        </View>
+      )
+    }
     return (
       <Container>
-        <Header>
+        <Header style={{backgroundColor: 'red'}} > 
+          <StatusBar
+           backgroundColor="#e60000"
+           barStyle="light-content"
+         />
           <Left>
-            <Button transparent>
-              <Icon name='menu' />
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+              <Icon name="menu" />
             </Button>
           </Left>
           <Body>
-            <Title>Header</Title>
+            <Title>HomeScreen</Title>
           </Body>
           <Right />
         </Header>
+        <OfflineNotice />
         <Content style={{backgroundColor: '#efefef'}}>
           <Content>
           <Grid style={styles.gridHeader}>
