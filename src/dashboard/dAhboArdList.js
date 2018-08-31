@@ -59,7 +59,7 @@ export default class DashBoArdList extends Component {
     }
       //get dAtas
       _onFetChingdAtas = () => {
-        fetch('http://otoritech.com/data')
+        fetch('api')
         .then(response => response.json())
         .then(responseJson => {
           this.setState({
